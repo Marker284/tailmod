@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "tailmod",
+  "version": "${version}",
+  "name": "Tailnet Mod",
+  "description": "Connect to Minecraft servers on your Tailscale network",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.tailscale.tailmod.TailModClient"],
+    "modmenu": ["com.tailscale.tailmod.TailModMenuImpl"]
+  },
+  "mixins": ["tailmod.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.1",
+    "fabric-api": "*",
+    "minecraft": "26.1.2",
+    "java": ">=25"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

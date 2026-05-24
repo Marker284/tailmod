@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.tailscale.tailmod.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "TitleScreenMixin",
+    "ConnectScreenMixin",
+    "LanServerPingerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "gui.tailmod.open": "Tailnet",
+  "gui.tailmod.title": "Tailnet Devices",
+  "gui.tailmod.connect": "Connect",
+  "gui.tailmod.refresh": "Refresh",
+  "gui.tailmod.auth_title": "Tailscale Auth",
+  "gui.tailmod.auth_prompt": "Enter auth key (tskey-auth-...)",
+  "gui.tailmod.auth_submit": "Connect",
+  "gui.tailmod.connecting": "Connecting to Tailnet...",
+  "gui.tailmod.error": "Tailscale error: %s"
+}

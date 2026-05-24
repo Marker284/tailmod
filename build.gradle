@@ -1,0 +1,56 @@
+plugins {
+    id 'fabric-loom' version '1.16.2'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group   = project.maven_group
+base { archivesName = project.archives_base_name }
+
+repositories {
+    mavenCentral()
+    maven { url = "https://maven.terraformersmc.com/" }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    // В debof-режиме (MC 26.1+ не обфусцирован) — стандартные конфигурации
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // JNA — биндинги Java ↔ libtailscale (JiJ)
+    include implementation('net.java.dev.jna:jna:5.15.0')
+    include implementation('net.java.dev.jna:jna-platform:5.15.0')
+
+    // ModMenu — необязательная зависимость, не бандлим в jar
+    compileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+}
+
+// loom.mixin не нужен в debof-режиме (MC 26.1+ не обфусциров��н, рефмап не нужен)
+
+processResources {
+    inputs.property 'version', project.version
+    filteringCharset 'UTF-8'
+    filesMatching('fabric.mod.json') { expand version: project.version }
+}
+
+def targetJava = 25
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release   = targetJava
+}
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(targetJava) }
+    withSourcesJar()
+}
+
+jar {
+    from('LICENSE') { rename { "${it}_${project.archivesBaseName}" } }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) { from components.java }
+    }
+}

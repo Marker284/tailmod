@@ -1,0 +1,19 @@
+{
+  "gui.tailmod.open": "Tailnet",
+  "gui.tailmod.title": "Устройства Tailnet",
+  "gui.tailmod.connect": "Подключиться",
+  "gui.tailmod.refresh": "Обновить",
+  "gui.tailmod.auth_title": "Авторизация Tailscale",
+  "gui.tailmod.auth_prompt": "Введите auth key (tskey-auth-...)",
+  "gui.tailmod.auth_submit": "Подключиться",
+  "gui.tailmod.connecting": "Подключение к Tailnet...",
+  "gui.tailmod.error": "Ошибка Tailscale: %s",
+  "gui.tailmod.auth_browser": "Войти через браузер",
+  "gui.tailmod.auth_open_browser": "Открыть браузер",
+  "gui.tailmod.settings_title": "Настройки Tailnet",
+  "gui.tailmod.settings_save": "Сохранить",
+  "gui.tailmod.settings_disconnect": "Отключиться от Tailnet",
+  "gui.tailmod.settings_ports_hint": "UDP порты: 24454, 25454, ...",
+  "gui.tailmod.add_server": "В список серверов",
+  "gui.tailmod.server_added": "Добавлен в список серверов!"
+}

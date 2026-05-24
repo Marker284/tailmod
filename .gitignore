@@ -1,0 +1,21 @@
+build/
+.gradle/
+out/
+*.class
+
+# Артефакты компиляции Go
+native/*.o
+native/tailscale.h
+native/overlay
+
+# Claude Code local settings
+.claude/
+
+# Мусор
+*.DS_Store
+*.iml
+.idea/
+.vscode/
+
+# Старый скриншот с кириллицей в имени
+Снимок*
