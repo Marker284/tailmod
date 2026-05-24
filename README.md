@@ -45,7 +45,7 @@ TailMod embeds a full Tailscale node (via [tsnet](https://pkg.go.dev/tailscale.c
 ## Installation
 
 1. Install [Fabric Loader 0.19.1](https://fabricmc.net/) for Minecraft 26.1.2
-2. Drop `tailmod-0.1.0.jar` into your `.minecraft/mods/` folder
+2. Drop `tailmod-0.1.1.jar` into your `.minecraft/mods/` folder
 3. Launch the game — the **Tailnet** button appears next to **Multiplayer** on the title screen
 
 ### First login
@@ -149,7 +149,7 @@ go build -buildmode=c-shared -mod=vendor `
 
 ```bash
 ./gradlew build
-# Output: build/libs/tailmod-0.1.0.jar
+# Output: build/libs/tailmod-0.1.1.jar
 ```
 
 ---
