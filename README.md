@@ -4,7 +4,13 @@
 
 TailMod embeds a full Tailscale node (via [tsnet](https://pkg.go.dev/tailscale.com/tsnet)) directly into the Minecraft client. No external daemon, no router configuration — just click and connect.
 
-![TailMod screenshot](screenshot.png)
+| Title screen | Tailnet peer list |
+|---|---|
+| ![Title screen](screenshots/titlescreen.png) | ![Tailnet screen](screenshots/tailnet.png) |
+
+| Login screen | LAN world |
+|---|---|
+| ![Auth screen](screenshots/auth.png) | ![LAN world](screenshots/lan.png) |
 
 ---
 
@@ -20,7 +26,7 @@ TailMod embeds a full Tailscale node (via [tsnet](https://pkg.go.dev/tailscale.c
 - **Double-click to connect** — works like the normal multiplayer screen
 - **Voice chat proxy** — Simple Voice Chat (port 24454) and webcam mods (port 25454) work out of the box
 - **Configurable UDP ports** — add any extra UDP ports in ModMenu settings
-- **Cross-platform natives** — prebuilt `libtailscale` for Linux x64, macOS x64 and macOS arm64 (Apple Silicon)
+- **Cross-platform natives** — prebuilt `libtailscale` for Linux x64, Windows x64, macOS x64 and macOS arm64 (Apple Silicon)
 - **ModMenu settings** — change auth key, UDP ports, disconnect, all without restarting
 
 ---
@@ -45,9 +51,33 @@ TailMod embeds a full Tailscale node (via [tsnet](https://pkg.go.dev/tailscale.c
 ### First login
 
 - **With auth key** — paste your `tskey-auth-...` key from [Tailscale Admin](https://login.tailscale.com/admin/authkeys)
-- **Browser login** — click "Войти через браузер", approve in your browser, done
+- **Browser login** — click "Login via browser", approve in your browser, done
 
 Credentials are saved; subsequent launches connect automatically.
+
+---
+
+## Playing with friends
+
+TailMod works over your **Tailnet** — a private encrypted network managed by Tailscale. For you and your friends to see each other in the peer list, you all need to be on the **same Tailnet**.
+
+### How to invite a friend
+
+1. Open [Tailscale Admin → Users](https://login.tailscale.com/admin/users) and click **Invite user** (or share an invite link).
+2. Your friend installs [Tailscale](https://tailscale.com/download) **or** just uses TailMod — the mod creates its own Tailscale node automatically.
+3. After they accept the invite, they appear in your TailnetScreen and you appear in theirs.
+
+> **Tip:** You don't both need to use the same Tailscale account — one person owns the Tailnet and invites others as members or guests.
+
+### Hosting a server
+
+| Scenario | What to do |
+|---|---|
+| **LAN world** | Open your world → Escape → "Open to LAN". TailMod broadcasts this to all Tailnet peers automatically — they see it in the peer list with one-click connect. |
+| **Dedicated server** | Install [Tailscale](https://tailscale.com/download) on the server machine and join your Tailnet. Friends connect to it via TailMod just like any other peer in the list. |
+| **Same machine, different player** | Just run TailMod — LAN world sharing handles everything. |
+
+> **Note:** The server machine does **not** need TailMod — only the clients connecting to it do. The server just needs to be reachable on your Tailnet (via Tailscale app or another TailMod instance).
 
 ---
 
@@ -56,7 +86,7 @@ Credentials are saved; subsequent launches connect automatically.
 ```
 Minecraft client
   └─ TailMod (Fabric mod)
-       ├─ tsnet node (libtailscale.so / .dylib)   ← userspace Tailscale, no daemon needed
+       ├─ tsnet node (libtailscale.so / .dll / .dylib)   ← userspace Tailscale, no daemon needed
        ├─ TCP proxy 127.0.0.1:25566               ← MC connects here, we forward via tsnet
        ├─ UDP proxies 24454, 25454, …             ← voice chat, webcam mods
        └─ LAN beacon :25561                       ← announces open LAN worlds to tailnet peers
@@ -68,7 +98,65 @@ The mod starts an embedded Tailscale node in the JVM process using [tsnet](https
 
 ## Building from source
 
-Requires: Go 1.22+, JDK 25, Zig (for macOS cross-compilation), nix-shell (optional).
+### Prerequisites
+
+| Tool | Purpose |
+|---|---|
+| Go 1.22+ | Build the native library |
+| JDK 25 | Build the mod jar |
+| C compiler | CGo (see per-platform notes below) |
+| Zig 0.13+ | Cross-compilation to other platforms (optional) |
+
+---
+
+### Native library — your platform only (no Nix, no Zig)
+
+Build for the platform you're currently on:
+
+**Linux (x64)**
+```bash
+cd native
+CGO_ENABLED=1 go build -buildmode=c-shared -mod=vendor \
+  -o ../src/main/resources/natives/linux-amd64/libtailscale.so .
+```
+
+**macOS (Apple Silicon)**
+```bash
+cd native
+CGO_ENABLED=1 go build -buildmode=c-shared -mod=vendor \
+  -o ../src/main/resources/natives/macos-arm64/libtailscale.dylib .
+```
+
+**macOS (Intel)**
+```bash
+cd native
+CGO_ENABLED=1 go build -buildmode=c-shared -mod=vendor \
+  -o ../src/main/resources/natives/macos-amd64/libtailscale.dylib .
+```
+
+**Windows (x64)** — requires [MinGW-w64](https://www.mingw-w64.org/) (`gcc` on PATH):
+```powershell
+cd native
+$env:CGO_ENABLED = "1"
+$env:CC = "gcc"
+go build -buildmode=c-shared -mod=vendor `
+  -o ..\src\main\resources\natives\windows-amd64\tailscale.dll .
+```
+
+---
+
+### Build the mod jar
+
+```bash
+./gradlew build
+# Output: build/libs/tailmod-0.1.0.jar
+```
+
+---
+
+### Cross-compilation for all platforms (requires Nix + Zig)
+
+Builds Linux, macOS (x64 + arm64) and Windows from a single Linux machine:
 
 ```bash
 # Build native libraries for all platforms
@@ -76,13 +164,11 @@ nix-shell shell.nix --run "bash scripts/build-native.sh all"
 
 # Build the mod jar
 nix-shell shell.nix --run "gradle build"
-
-# Output: build/libs/tailmod-0.1.0.jar
 ```
 
-For a single platform (e.g. Linux):
+For a single target:
 ```bash
-nix-shell shell.nix --run "bash scripts/build-native.sh linux-amd64"
+nix-shell shell.nix --run "bash scripts/build-native.sh windows-amd64"
 ```
 
 ---
