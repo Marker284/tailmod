@@ -3,17 +3,36 @@
   "gui.tailmod.title": "Устройства Tailnet",
   "gui.tailmod.connect": "Подключиться",
   "gui.tailmod.refresh": "Обновить",
+
   "gui.tailmod.auth_title": "Авторизация Tailscale",
   "gui.tailmod.auth_prompt": "Введите auth key (tskey-auth-...)",
   "gui.tailmod.auth_submit": "Подключиться",
-  "gui.tailmod.connecting": "Подключение к Tailnet...",
-  "gui.tailmod.error": "Ошибка Tailscale: %s",
   "gui.tailmod.auth_browser": "Войти через браузер",
   "gui.tailmod.auth_open_browser": "Открыть браузер",
+  "gui.tailmod.auth_waiting": "Ожидание браузерного входа",
+  "gui.tailmod.auth_connecting_short": "Подключение",
+  "gui.tailmod.auth_no_key": "Сначала введите auth key",
+  "gui.tailmod.auth_connected": "Подключено!",
+  "gui.tailmod.auth_copy_link": "Нажмите кнопку или скопируйте ссылку",
+  "gui.tailmod.auth_copied": "Скопировано! Открываем браузер...",
+
+  "gui.tailmod.connecting": "Подключение к Tailnet...",
+  "gui.tailmod.connecting_base": "Подключение к Tailnet",
+  "gui.tailmod.unknown_error": "Неизвестная ошибка",
+
+  "gui.tailmod.status_connected": "Подключено",
+  "gui.tailmod.status_connecting": "Подключение...",
+  "gui.tailmod.status_disconnected": "Отключено",
+  "gui.tailmod.status_error": "Ошибка",
+  "gui.tailmod.status_online": "онлайн",
+  "gui.tailmod.status_offline": "оффлайн",
+
   "gui.tailmod.settings_title": "Настройки Tailnet",
   "gui.tailmod.settings_save": "Сохранить",
   "gui.tailmod.settings_disconnect": "Отключиться от Tailnet",
   "gui.tailmod.settings_ports_hint": "UDP порты: 24454, 25454, ...",
-  "gui.tailmod.add_server": "В список серверов",
-  "gui.tailmod.server_added": "Добавлен в список серверов!"
+  "gui.tailmod.settings_auth_key": "Auth Key:",
+  "gui.tailmod.settings_udp_ports": "UDP порты:",
+
+  "gui.tailmod.error": "Ошибка Tailscale: %s"
 }

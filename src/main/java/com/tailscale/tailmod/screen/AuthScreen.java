@@ -87,7 +87,10 @@ public class AuthScreen extends Screen {
         if (TailModClient.getState() == TailModClient.State.STARTING) {
             tickCount++;
             int dots = (tickCount / 8) % 4;
-            statusMsg   = (authUrl != null ? "Waiting for browser login" : "Connecting") + ".".repeat(dots);
+            String base = Component.translatable(authUrl != null
+                    ? "gui.tailmod.auth_waiting"
+                    : "gui.tailmod.auth_connecting_short").getString();
+            statusMsg   = base + ".".repeat(dots);
             statusColor = 0xFFFFFF55;
         }
     }
@@ -125,14 +128,14 @@ public class AuthScreen extends Screen {
         submitBtn.active  = false;
         browserBtn.active = false;
         keyField.setEditable(false);
-        statusMsg   = "Connecting...";
+        statusMsg   = Component.translatable("gui.tailmod.status_connecting").getString();
         statusColor = 0xFFFFFF55;
     }
 
     private void submit() {
         String key = keyField.getValue().trim();
         if (key.isEmpty()) {
-            statusMsg   = "Enter an auth key first";
+            statusMsg   = Component.translatable("gui.tailmod.auth_no_key").getString();
             statusColor = 0xFFFF5555;
             return;
         }
@@ -143,12 +146,13 @@ public class AuthScreen extends Screen {
                 TailModConfig cfg = TailModClient.getConfig();
                 cfg.setAuthKey(key);
                 cfg.save();
-                statusMsg   = "Connected!";
+                statusMsg   = Component.translatable("gui.tailmod.auth_connected").getString();
                 statusColor = 0xFF55FF55;
                 minecraft.setScreen(new TailnetScreen(parent));
             } else {
                 String err = TailModClient.getLastError();
-                statusMsg         = err != null ? err : "Unknown error";
+                statusMsg         = err != null ? err
+                        : Component.translatable("gui.tailmod.unknown_error").getString();
                 statusColor       = 0xFFFF5555;
                 submitBtn.active  = true;
                 browserBtn.active = true;
@@ -164,12 +168,13 @@ public class AuthScreen extends Screen {
 
         TailModClient.startAsync(null, success -> minecraft.execute(() -> {
             if (success) {
-                statusMsg   = "Connected!";
+                statusMsg   = Component.translatable("gui.tailmod.auth_connected").getString();
                 statusColor = 0xFF55FF55;
                 minecraft.setScreen(new TailnetScreen(parent));
             } else {
                 String err = TailModClient.getLastError();
-                statusMsg              = err != null ? err : "Unknown error";
+                statusMsg              = err != null ? err
+                        : Component.translatable("gui.tailmod.unknown_error").getString();
                 statusColor            = 0xFFFF5555;
                 authUrl                = null;
                 openBrowserBtn.visible = false;
@@ -180,7 +185,7 @@ public class AuthScreen extends Screen {
         }), url -> minecraft.execute(() -> {
             authUrl                = url;
             openBrowserBtn.visible = true;
-            statusMsg   = "Click button or copy the link";
+            statusMsg   = Component.translatable("gui.tailmod.auth_copy_link").getString();
             statusColor = 0xFFFFFF55;
             // Авто-попытка открыть браузер
             tryOpenBrowser(url);
@@ -190,9 +195,8 @@ public class AuthScreen extends Screen {
     private void clickOpenBrowser() {
         String url = authUrl;
         if (url == null) return;
-        // Всегда копируем в буфер обмена
         minecraft.keyboardHandler.setClipboard(url);
-        statusMsg   = "Copied! Also opening browser...";
+        statusMsg   = Component.translatable("gui.tailmod.auth_copied").getString();
         statusColor = 0xFF55FF55;
         tryOpenBrowser(url);
     }

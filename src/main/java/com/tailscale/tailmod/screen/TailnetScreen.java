@@ -102,8 +102,8 @@ public class TailnetScreen extends Screen {
             g.text(font, ":", width / 2 + 2, height - 24, 0xFFAAAAAA, false);
         if (TailModClient.getState() == TailModClient.State.STARTING) {
             int dots = (tickCount / 8) % 4;
-            g.centeredText(font, "Подключение к Tailnet" + ".".repeat(dots),
-                    width / 2, height - 72, 0xFFFFFF55);
+            String base = Component.translatable("gui.tailmod.connecting_base").getString();
+            g.centeredText(font, base + ".".repeat(dots), width / 2, height - 72, 0xFFFFFF55);
         }
     }
 
@@ -208,7 +208,10 @@ public class TailnetScreen extends Screen {
             g.text(font, peer.displayName(), x + 2, y + 2, 0xFFFFFFFF, true);
 
             // Статус строка — IP + online/offline + SLP
-            String online = peer.online() ? "§aonline" : "§coffline";
+            String online = "§" + (peer.online() ? "a" : "c")
+                    + Component.translatable(peer.online()
+                            ? "gui.tailmod.status_online"
+                            : "gui.tailmod.status_offline").getString();
             SlpPinger.Result slp = slpResult;
             if (slp != null) {
                 String info = "§7" + slp.online() + "§8/§7" + slp.max()

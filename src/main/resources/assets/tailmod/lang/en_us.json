@@ -3,9 +3,36 @@
   "gui.tailmod.title": "Tailnet Devices",
   "gui.tailmod.connect": "Connect",
   "gui.tailmod.refresh": "Refresh",
+
   "gui.tailmod.auth_title": "Tailscale Auth",
   "gui.tailmod.auth_prompt": "Enter auth key (tskey-auth-...)",
   "gui.tailmod.auth_submit": "Connect",
+  "gui.tailmod.auth_browser": "Login via browser",
+  "gui.tailmod.auth_open_browser": "Open browser",
+  "gui.tailmod.auth_waiting": "Waiting for browser login",
+  "gui.tailmod.auth_connecting_short": "Connecting",
+  "gui.tailmod.auth_no_key": "Enter an auth key first",
+  "gui.tailmod.auth_connected": "Connected!",
+  "gui.tailmod.auth_copy_link": "Click the button or copy the link",
+  "gui.tailmod.auth_copied": "Copied! Also opening browser...",
+
   "gui.tailmod.connecting": "Connecting to Tailnet...",
+  "gui.tailmod.connecting_base": "Connecting to Tailnet",
+  "gui.tailmod.unknown_error": "Unknown error",
+
+  "gui.tailmod.status_connected": "Connected",
+  "gui.tailmod.status_connecting": "Connecting...",
+  "gui.tailmod.status_disconnected": "Disconnected",
+  "gui.tailmod.status_error": "Error",
+  "gui.tailmod.status_online": "online",
+  "gui.tailmod.status_offline": "offline",
+
+  "gui.tailmod.settings_title": "Tailnet Settings",
+  "gui.tailmod.settings_save": "Save",
+  "gui.tailmod.settings_disconnect": "Disconnect from Tailnet",
+  "gui.tailmod.settings_ports_hint": "UDP ports: 24454, 25454, ...",
+  "gui.tailmod.settings_auth_key": "Auth Key:",
+  "gui.tailmod.settings_udp_ports": "UDP Ports:",
+
   "gui.tailmod.error": "Tailscale error: %s"
 }

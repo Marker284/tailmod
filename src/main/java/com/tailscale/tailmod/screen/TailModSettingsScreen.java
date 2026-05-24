@@ -75,10 +75,11 @@ public class TailModSettingsScreen extends Screen {
 
         TailModClient.State st = TailModClient.getState();
         String stateStr = switch (st) {
-            case READY    -> "Connected";
-            case STARTING -> "Connecting...";
-            case ERROR    -> { String e = TailModClient.getLastError(); yield e != null ? e : "Error"; }
-            default       -> "Disconnected";
+            case READY    -> Component.translatable("gui.tailmod.status_connected").getString();
+            case STARTING -> Component.translatable("gui.tailmod.status_connecting").getString();
+            case ERROR    -> { String e = TailModClient.getLastError();
+                              yield e != null ? e : Component.translatable("gui.tailmod.status_error").getString(); }
+            default       -> Component.translatable("gui.tailmod.status_disconnected").getString();
         };
         int stateColor = switch (st) {
             case READY    -> 0xFF55FF55;
@@ -88,9 +89,10 @@ public class TailModSettingsScreen extends Screen {
         };
         g.centeredText(font, stateStr, cx, cy - 56, stateColor);
 
-        // Labels
-        g.text(font, "Auth Key:", cx - 150, cy - 52, 0xFFAAAAAA, false);
-        g.text(font, "UDP Ports:", cx - 150, cy - 22, 0xFFAAAAAA, false);
+        g.text(font, Component.translatable("gui.tailmod.settings_auth_key").getString(),
+                cx - 150, cy - 52, 0xFFAAAAAA, false);
+        g.text(font, Component.translatable("gui.tailmod.settings_udp_ports").getString(),
+                cx - 150, cy - 22, 0xFFAAAAAA, false);
     }
 
     private void save() {
