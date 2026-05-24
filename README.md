@@ -4,13 +4,11 @@
 
 TailMod embeds a full Tailscale node (via [tsnet](https://pkg.go.dev/tailscale.com/tsnet)) directly into the Minecraft client. No external daemon, no router configuration — just click and connect.
 
-| Title screen | Tailnet peer list |
+| Tailnet peer list | Login screen |
 |---|---|
-| ![Title screen](screenshots/titlescreen.png) | ![Tailnet screen](screenshots/tailnet.png) |
+| ![Tailnet Devices](screenshots/devices.png) | ![Tailscale Auth](screenshots/auth.png) |
 
-| Login screen | LAN world |
-|---|---|
-| ![Auth screen](screenshots/auth.png) | ![LAN world](screenshots/lan.png) |
+![Tailnet Settings](screenshots/settings.png)
 
 ---
 
